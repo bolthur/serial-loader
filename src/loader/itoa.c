@@ -18,24 +18,40 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.S"
+#include <stdint.h>
+#include <stdbool.h>
 
-.section .text.boot
+#include "loader/strrev.h"
 
-.global boot_start
-boot_start:
-  // setup temporary stack
-  ldr r3, =boot_start
-  mov sp, r3
+char* itoa( int32_t value, char* buffer, int32_t radix, bool uppercase ) {
+  char *p = buffer;
+  unsigned uv;
+  bool sign = ( 10 == radix && 0 > value ) ? true : false;
 
-  // relocate loader from soc address to link address
-  relocate #SOC_LOAD_ADDRESS
+  if ( sign ) {
+    uv = ( unsigned )-value;
+  } else {
+    uv = ( unsigned )value;
+  }
 
-  // switch to generic startup
-  ldr r3, =startup
-  blx r3
+  // divide until we reach 0 as result
+  do {
+    int remainder = ( int )( uv % ( unsigned )radix );
+    *p++ = ( char )(
+      ( remainder < 10 )
+        ? remainder + '0'
+        : remainder + ( ! uppercase ? 'a' : 'A' ) - 10
+    );
+  } while ( uv /= ( unsigned )radix );
 
-halt:
-  wfe // equivalent of x86 HLT instruction
-  b halt
+  // add sign
+  if ( sign ) {
+    *p++ = '-';
+  }
 
+  // terminate buffer
+  *p = 0;
+
+  // return reversed string
+  return strrev( buffer );
+}

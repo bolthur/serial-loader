@@ -18,24 +18,11 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.S"
+#include <stdint.h>
 
-.section .text.boot
+#if !defined( ARCH_ARM_DELAY_H )
+#define ARCH_ARM_DELAY_H
 
-.global boot_start
-boot_start:
-  // setup temporary stack
-  ldr r3, =boot_start
-  mov sp, r3
+extern void delay( uint32_t );
 
-  // relocate loader from soc address to link address
-  relocate #SOC_LOAD_ADDRESS
-
-  // switch to generic startup
-  ldr r3, =startup
-  blx r3
-
-halt:
-  wfe // equivalent of x86 HLT instruction
-  b halt
-
+#endif

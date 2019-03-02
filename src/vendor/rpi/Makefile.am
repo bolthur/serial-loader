@@ -9,7 +9,12 @@ AM_CCASFLAGS = -imacros $(top_builddir)/config.h -I$(top_srcdir)/include
 # rpi library
 noinst_LIBRARIES = librpi.a
 librpi_a_SOURCES = \
-  start.$(subarch_subdir).$(executable_format).S
+  mailbox/mailbox.c \
+  mailbox/property.c \
+  parameter.c \
+  serial.c \
+  start.$(subarch_subdir).$(executable_format).S \
+  startup.$(executable_format).S
 
 # built sources determining things to be built first
 BUILT_SOURCES = \

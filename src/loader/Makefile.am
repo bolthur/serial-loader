@@ -8,4 +8,10 @@ AM_CCASFLAGS = -imacros $(top_builddir)/config.h -I$(top_srcdir)/include
 
 noinst_LIBRARIES = libloader.a
 libloader_a_SOURCES = \
-  main.c
+  itoa.c \
+  main.c \
+  memcpy.c \
+  printf.c \
+  strlen.c \
+  strrev.c \
+  utoa.c

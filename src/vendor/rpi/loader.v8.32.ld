@@ -34,7 +34,8 @@ INPUT(
 )
 
 SECTIONS {
-  . = 0x80000;
+  /* load to 64mb border */
+  . = 0x4000000;
   __loader_start = .;
 
   .text ALIGN( 4K ) : AT( ADDR( .text ) ) {
@@ -43,26 +44,26 @@ SECTIONS {
   }
 
   .rodata ALIGN( 4K ) : AT( ADDR( .rodata ) ) {
-    *(.rodata)
+    *( .rodata )
   }
 
   .data ALIGN( 4K ) : AT( ADDR( .data ) ) {
-    *(.data)
+    *( .data )
   }
 
   .bss ALIGN( 4K ) : AT( ADDR( .bss ) ) {
     __bss_start = .;
-    *(COMMON)
-    *(.bss)
+    *( COMMON )
+    *( .bss )
     __bss_end = .;
   }
 
   __loader_end = .;
 
   /DISCARD/ : {
-    *(.comment)
-    *(.eh_frame)
-    *(.ARM.exidx*)
-    *(.ARM.attributes*)
+    *( .comment )
+    *( .eh_frame )
+    *( .ARM.exidx* )
+    *( .ARM.attributes* )
   }
 }

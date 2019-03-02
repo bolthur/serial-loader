@@ -9,4 +9,7 @@ AM_CFLAGS = -imacros $(top_builddir)/config.h -I$(top_srcdir)/include
 AM_CCASFLAGS = -imacros $(top_builddir)/config.h -I$(top_srcdir)/include
 
 noinst_LIBRARIES = libarm.a
-libarm_a_SOURCES =
+libarm_a_SOURCES = \
+  delay.c \
+  fpu.S \
+  mmio.c

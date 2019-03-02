@@ -18,24 +18,24 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.S"
+#include <stdint.h>
 
-.section .text.boot
+/**
+ * @brief Write to memory mapped I/O
+ *
+ * @param reg register/address to write to
+ * @param data data to write
+ */
+void OPT_NONE mmio_write( uint32_t reg, uint32_t data ) {
+  *( volatile uint32_t* )( ( uint32_t )reg ) = data;
+}
 
-.global boot_start
-boot_start:
-  // setup temporary stack
-  ldr r3, =boot_start
-  mov sp, r3
-
-  // relocate loader from soc address to link address
-  relocate #SOC_LOAD_ADDRESS
-
-  // switch to generic startup
-  ldr r3, =startup
-  blx r3
-
-halt:
-  wfe // equivalent of x86 HLT instruction
-  b halt
-
+/**
+ * @brief Read from memory mapped I/O
+ *
+ * @param reg register/address to read
+ * @return uint32_t data from memory mapped I/O
+ */
+uint32_t OPT_NONE mmio_read( uint32_t reg ) {
+  return *( volatile uint32_t* )( ( uint32_t )reg );
+}

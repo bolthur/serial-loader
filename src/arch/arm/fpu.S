@@ -18,24 +18,22 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.S"
+/**
+ * @brief Method to enable floating point unit when fpu enabled flag is set
+ */
+.global fpu_enable
+fpu_enable:
+  #if defined( FPU_AVAILABLE )
+    // read co processor access controll register into r0
+    mrc p15, 0, r0, c1, c0, 2
+    // enable full access for everyone
+    orr r0, r0, #( 0xf << 20 )
+    // write back changes
+    mcr p15, 0, r0, c1, c0, 2
 
-.section .text.boot
-
-.global boot_start
-boot_start:
-  // setup temporary stack
-  ldr r3, =boot_start
-  mov sp, r3
-
-  // relocate loader from soc address to link address
-  relocate #SOC_LOAD_ADDRESS
-
-  // switch to generic startup
-  ldr r3, =startup
-  blx r3
-
-halt:
-  wfe // equivalent of x86 HLT instruction
-  b halt
-
+    // Set FPEXC.EN bit to enable fpu
+    mov r0, #( 0x1 << 30 )
+    // Transfer change to vfp system register
+    vmsr fpexc, r0
+  #endif
+  bx lr

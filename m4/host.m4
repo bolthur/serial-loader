@@ -2,6 +2,8 @@
 AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
   AH_TEMPLATE([ELF32], [Define to 1 for 32 bit ELF targets])
   AH_TEMPLATE([ELF64], [Define to 1 for 64 bit ELF targets])
+  AH_TEMPLATE([SOC_LOAD_ADDRESS], [Define containing soc load address])
+  AH_TEMPLATE([FPU_AVAILABLE], [Define to 1 for available fpu])
 
   case "${host_cpu}" in
   arm)
@@ -19,14 +21,17 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       vendor_subdir=rpi
       output_img=loader7.img
       output_sym=loader7.sym
-      AC_DEFINE([ELF32])
       AC_DEFINE([BCM2709], [1], [Define to 1 for BCM2709 chip])
+      AC_DEFINE([SOC_LOAD_ADDRESS], [0x8000])
+      AC_DEFINE([FPU_AVAILABLE], [1])
       ;;
     rpi_zero_w)
       CFLAGS="${CFLAGS} -march=armv6zk -mtune=arm1176jzf-s -mfpu=vfpv2 -mfloat-abi=hard"
       subarch_subdir=v6
       vendor_subdir=rpi
       AC_DEFINE([BCM2708], [1], [Define to 1 for BCM2708 chip])
+      AC_DEFINE([SOC_LOAD_ADDRESS], [0x8000])
+      AC_DEFINE([FPU_AVAILABLE], [1])
       ;;
     rpi3_b)
       CFLAGS="${CFLAGS} -march=armv8-a -mtune=cortex-a53 -mfpu=neon-vfpv4 -mfloat-abi=hard"
@@ -35,6 +40,8 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       output_img=loader8.img
       output_sym=loader8.sym
       AC_DEFINE([BCM2710], [1], [Define to 1 for BCM2710 chip])
+      AC_DEFINE([SOC_LOAD_ADDRESS], [0x8000])
+      AC_DEFINE([FPU_AVAILABLE], [1])
       ;;
     *)
       AC_MSG_ERROR([unsupported host vendor])
@@ -55,6 +62,8 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       output_img=loader8.img
       output_sym=loader8.sym
       AC_DEFINE([BCM2710], [1])
+      AC_DEFINE([SOC_LOAD_ADDRESS], [0x80000])
+      AC_DEFINE([FPU_AVAILABLE], [1])
       ;;
     *)
       AC_MSG_ERROR([unsupported host vendor])

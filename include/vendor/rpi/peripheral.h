@@ -18,24 +18,16 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.S"
+#include <stdint.h>
 
-.section .text.boot
+#if !defined( VENDOR_RPI_PERIPHERAL_H )
+#define VENDOR_RPI_PERIPHERAL_H
 
-.global boot_start
-boot_start:
-  // setup temporary stack
-  ldr r3, =boot_start
-  mov sp, r3
+// initial setup of peripheral base
+#if defined( BCM2709 ) || defined( BCM2710 )
+  #define PERIPHERAL_BASE 0x3F000000
+#else
+  #define PERIPHERAL_BASE 0x20000000
+#endif
 
-  // relocate loader from soc address to link address
-  relocate #SOC_LOAD_ADDRESS
-
-  // switch to generic startup
-  ldr r3, =startup
-  blx r3
-
-halt:
-  wfe // equivalent of x86 HLT instruction
-  b halt
-
+#endif

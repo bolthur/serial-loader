@@ -18,6 +18,8 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "arch/arm/relocate.S"
+
 .arch_extension virt
 
 .section .text.boot
@@ -79,12 +81,11 @@ boot_start:
   // push back changes
   mcr p15, 0, r3, c1, c0, 0
 
-  // FIXME: Clear bss section
-  // FIXME: Save boot parameter somewhere
-  // FIXME: Relocate loader code from fixed load address to different address
+  // relocate loader from soc address to link address
+  relocate #SOC_LOAD_ADDRESS
 
-  // switch to c main
-  ldr r3, =loader_main
+  // switch to generic startup
+  ldr r3, =startup
   blx r3
 
 halt:

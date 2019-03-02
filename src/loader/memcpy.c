@@ -18,24 +18,16 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.S"
+#include <stddef.h>
+#include <stdint.h>
 
-.section .text.boot
+void* memcpy( void* restrict dstptr, const void* restrict srcptr, size_t size ) {
+  uint8_t* dst = ( uint8_t * ) dstptr;
+  const uint8_t* src = ( const uint8_t * ) srcptr;
 
-.global boot_start
-boot_start:
-  // setup temporary stack
-  ldr r3, =boot_start
-  mov sp, r3
+  for ( size_t i = 0; i < size; i++ ) {
+    dst[ i ] = src[ i ];
+  }
 
-  // relocate loader from soc address to link address
-  relocate #SOC_LOAD_ADDRESS
-
-  // switch to generic startup
-  ldr r3, =startup
-  blx r3
-
-halt:
-  wfe // equivalent of x86 HLT instruction
-  b halt
-
+  return dstptr;
+}

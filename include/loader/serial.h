@@ -18,24 +18,15 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.S"
+#if !defined( SERIAL_H )
+#define SERIAL_H
 
-.section .text.boot
+#include <stdint.h>
 
-.global boot_start
-boot_start:
-  // setup temporary stack
-  ldr r3, =boot_start
-  mov sp, r3
+extern void serial_init( void );
+extern void serial_putc( uint8_t );
+extern uint8_t serial_getc( void );
+extern void serial_flush( void );
+extern void serial_puts( const char* );
 
-  // relocate loader from soc address to link address
-  relocate #SOC_LOAD_ADDRESS
-
-  // switch to generic startup
-  ldr r3, =startup
-  blx r3
-
-halt:
-  wfe // equivalent of x86 HLT instruction
-  b halt
-
+#endif

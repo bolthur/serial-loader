@@ -18,8 +18,20 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "loader/serial.h"
+#include "loader/printf.h"
+
+extern void boot_start( void );
+
 /**
  * @brief Loader main function
  */
 void loader_main() {
+  // setup serial connection
+  serial_init();
+
+  // some initial output
+  printf( "%s\r\n", PACKAGE_STRING );
+
+  while( 1 ) {}
 }

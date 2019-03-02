@@ -18,24 +18,30 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.S"
+.section .text
 
-.section .text.boot
+.global startup
+startup:
+  bl fpu_enable
 
-.global boot_start
-boot_start:
-  // setup temporary stack
-  ldr r3, =boot_start
-  mov sp, r3
+  // clear bss section
+  ldr r4, =__bss_start
+  ldr r9, =__bss_end
+  mov r5, #0
+  mov r6, #0
+  mov r7, #0
+  mov r8, #0
+  2:
+    // write multiple to memory
+    stmia r4!, {r5 - r8}
+    // loop until bss end
+    cmp r4, r9
+    blo 2b
 
-  // relocate loader from soc address to link address
-  relocate #SOC_LOAD_ADDRESS
+  // save boot parameter
+  ldr r4, =vendor_boot_parameter
+  stmia r4!, {r0 - r2}
 
-  // switch to generic startup
-  ldr r3, =startup
+  // switch to c main
+  ldr r3, =loader_main
   blx r3
-
-halt:
-  wfe // equivalent of x86 HLT instruction
-  b halt
-

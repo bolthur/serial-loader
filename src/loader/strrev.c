@@ -18,24 +18,19 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.S"
+#include "loader/strlen.h"
 
-.section .text.boot
+char* strrev( char* str ) {
+  char* p1 = str;
+  char* p2 = ( char* )( str + strlen( str ) - 1 );
 
-.global boot_start
-boot_start:
-  // setup temporary stack
-  ldr r3, =boot_start
-  mov sp, r3
+  while ( p1 < p2 ) {
+    char tmp = *p1;
+    *p1 = *p2;
+    *p2 = tmp;
+    p1++;
+    p2--;
+  }
 
-  // relocate loader from soc address to link address
-  relocate #SOC_LOAD_ADDRESS
-
-  // switch to generic startup
-  ldr r3, =startup
-  blx r3
-
-halt:
-  wfe // equivalent of x86 HLT instruction
-  b halt
-
+  return str;
+}
