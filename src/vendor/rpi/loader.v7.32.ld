@@ -39,16 +39,22 @@ SECTIONS {
   __loader_start = .;
 
   .text ALIGN( 4K ) : AT( ADDR( .text ) ) {
+    __text_start = .;
     *( .text.boot )
     *( .text )
+    __text_end = .;
   }
 
   .rodata ALIGN( 4K ) : AT( ADDR( .rodata ) ) {
+    __rodata_start = .;
     *( .rodata )
+    __rodata_end = .;
   }
 
   .data ALIGN( 4K ) : AT( ADDR( .data ) ) {
+    __data_start = .;
     *( .data )
+    __data_end = .;
   }
 
   .bss ALIGN( 4K ) : AT( ADDR( .bss ) ) {

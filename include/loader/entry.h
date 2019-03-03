@@ -18,9 +18,24 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if !defined( ENTRY_H )
+#define ENTRY_H
+
 #include <stdint.h>
 
-/**
- * @brief vendor boot parameter
- */
-uint32_t vendor_boot_parameter[ 3 ];
+extern uint32_t __loader_start;
+extern uint32_t __loader_end;
+
+extern uint32_t __text_start;
+extern uint32_t __text_end;
+
+extern uint32_t __rodata_start;
+extern uint32_t __rodata_end;
+
+extern uint32_t __data_start;
+extern uint32_t __data_end;
+
+extern uint32_t __bss_start;
+extern uint32_t __bss_end;
+
+#endif

@@ -11,10 +11,10 @@ noinst_LIBRARIES = librpi.a
 librpi_a_SOURCES = \
   mailbox/mailbox.c \
   mailbox/property.c \
-  parameter.c \
   serial.c \
   start.$(subarch_subdir).$(executable_format).S \
-  startup.$(executable_format).S
+  startup.$(executable_format).S \
+  vendor.c
 
 # built sources determining things to be built first
 BUILT_SOURCES = \
