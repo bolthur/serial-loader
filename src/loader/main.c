@@ -31,7 +31,7 @@
  */
 void loader_main() {
   // local variables
-  uint32_t size, loader_end_address;
+  uint32_t size, loader_end_address, load_size;
 
   // setup serial connection
   serial_init();
@@ -47,16 +47,14 @@ void loader_main() {
     // send end of text to signal wait for kernel
     serial_puts( "\x03\x03\x03" );
 
-    // check for start of kernel via start of text signal
-    if ( '\x02' != serial_getc() ) {
-      continue;
-    }
-
     // get kernel size in bytes
     size = ( uint32_t )serial_getc();
     size |= ( uint32_t )( serial_getc() << 8 );
     size |= ( uint32_t )( serial_getc() << 16 );
     size |= ( uint32_t )( serial_getc() << 24 );
+
+    // store load size
+    load_size = size;
 
     // calculate end address
     loader_end_address = SOC_LOAD_ADDRESS + size;
@@ -76,7 +74,7 @@ void loader_main() {
     }
 
     // boot loaded kernel
-    printf( "Booting received kernel with size of %d bytes\r\n", size );
+    printf( "Booting received kernel with size of %d bytes\r\n", load_size );
     vendor_boot_kernel();
 
     // break out of loop
