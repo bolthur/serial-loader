@@ -59,18 +59,28 @@ void loader_main() {
     // calculate end address
     loader_end_address = SOC_LOAD_ADDRESS + size;
 
-    // check for possible overflow
+    // check for possible overflow and skip rest
     if ( loader_end_address > ( uint32_t )&__loader_start ) {
-      printf( "Kernel to load is to big for this tool!\r\n" );
-      break;
+      serial_puts( "ER" );
+      continue;
     }
+
+    // signal OK
+    serial_puts( "OK" );
 
     // pointer to kernel at system load address
     uint8_t *kernel = ( uint8_t* )SOC_LOAD_ADDRESS;
 
     // loop until size is 0
-    while( size-- > 0 ) {
-      *kernel++ = serial_getc();
+    while( size > 0 ) {
+      // store current byte
+      *kernel = serial_getc();
+
+      // increment kernel
+      kernel++;
+
+      // decrement size
+      size--;
     }
 
     // boot loaded kernel
