@@ -18,8 +18,12 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "arch/arm/relocate.64.S"
+
 .section .text.boot
 
 .global boot_start
 boot_start:
+  // setup temporary stack
+  mov sp, #SOC_LOAD_ADDRESS
   #error "Not supported!"

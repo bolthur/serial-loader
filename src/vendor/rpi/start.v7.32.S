@@ -18,7 +18,7 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.S"
+#include "arch/arm/relocate.32.S"
 
 .arch_extension virt
 
@@ -27,16 +27,13 @@
 .global boot_start
 boot_start:
   // setup temporary stack
-  ldr r3, =boot_start
-  mov sp, r3
+  mov sp, #SOC_LOAD_ADDRESS
 
   // check cpu id and skip if not 0
   cpsid if // disable irq & fiq
   // r3 = multiprocessor affinity register ( mpidr )
   mrc p15, 0, r3, c0, c0, 5
   ands r3, #3 // r3 = cpu id ( bits 0 to 1 )
-  // if ( cpu id not equal to 0 ) branch to infinite loop ( core id 1 to 3 )
-  bne 1f
   // if equal to 0 branch to normal startup
   beq 2f
   1:
@@ -64,8 +61,7 @@ boot_start:
   4:
 
   // setup temporary stack again necessary due to mode switch
-  ldr r4, =boot_start
-  mov sp, r4
+  mov sp, #SOC_LOAD_ADDRESS
 
   // Set SMP bit within auxiliary control register according to documentation
   mrc p15, 0, r3, c1, c0, 1
@@ -86,6 +82,7 @@ boot_start:
 
   // switch to generic startup
   ldr r3, =startup
+  mov sp, r3
   blx r3
 
 halt:

@@ -24,7 +24,7 @@
   ldr r4, =__loader_start
   ldr r9, =__loader_end
   1:
-    // load 4 values into register
+    // load 4 values into register from r3
     ldmia r3!, {r5 - r8}
     // write multiple to loader start
     stmia r4!, {r5 - r8}

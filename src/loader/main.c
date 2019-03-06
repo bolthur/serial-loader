@@ -26,6 +26,8 @@
 #include "loader/vendor.h"
 #include "loader/entry.h"
 
+extern void boot_start( void );
+
 /**
  * @brief Loader main function
  */
@@ -39,7 +41,10 @@ void loader_main() {
   // loop until kernel dropped in
   while ( true ) {
     // some initial output
-    printf( "%s\r\n", PACKAGE_STRING );
+    printf(
+      "%s\r\nfunction located at: 0x%08x\r\nkernel loaded to: 0x%08x\r\nboot_start: 0x%08x\r\n",
+      PACKAGE_STRING, loader_main, SOC_LOAD_ADDRESS, boot_start
+    );
 
     // flush serial device
     serial_flush();
@@ -70,17 +75,17 @@ void loader_main() {
 
     // pointer to kernel at system load address
     uint8_t *kernel = ( uint8_t* )SOC_LOAD_ADDRESS;
+    uint32_t count = 0;
 
     // loop until size is 0
-    while( size > 0 ) {
+    while( size-- ) {
+      // every 4 byte sent okay
+      if ( ! ( count++ % 4 ) ) {
+        serial_puts( "OK" );
+      }
+
       // store current byte
-      *kernel = serial_getc();
-
-      // increment kernel
-      kernel++;
-
-      // decrement size
-      size--;
+      *kernel++ = serial_getc();
     }
 
     // boot loaded kernel
