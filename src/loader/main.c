@@ -80,7 +80,7 @@ void loader_main() {
     // loop until size is 0
     while( size-- ) {
       // every 4 byte sent okay
-      if ( ! ( count++ % 4 ) ) {
+      if ( ! ( count++ % 250 ) ) {
         serial_puts( "OK" );
       }
 
