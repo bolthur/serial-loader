@@ -12,8 +12,7 @@ librpi_a_SOURCES = \
   mailbox/mailbox.c \
   mailbox/property.c \
   serial.c \
-  start.$(subarch_subdir).$(executable_format).S \
-  startup.$(executable_format).S \
+  start.$(executable_format).S \
   vendor.c
 
 # built sources determining things to be built first

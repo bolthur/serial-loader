@@ -18,24 +18,10 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "arch/arm/relocate.32.S"
+#include "arch/arm/relocate.64.S"
 
 .section .text.boot
 
 .global boot_start
 boot_start:
-  // setup temporary stack
-  mov sp, #SOC_LOAD_ADDRESS
-
-  // relocate loader from soc address to link address
-  relocate #SOC_LOAD_ADDRESS
-
-  // switch to generic startup
-  ldr r3, =startup
-  // jump to generic startup
-  blx r3
-
-halt:
-  wfe // equivalent of x86 HLT instruction
-  b halt
-
+  #error "Not supported!"

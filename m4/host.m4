@@ -4,6 +4,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
   AH_TEMPLATE([ELF64], [Define to 1 for 64 bit ELF targets])
   AH_TEMPLATE([SOC_LOAD_ADDRESS], [Define containing soc load address])
   AH_TEMPLATE([FPU_AVAILABLE], [Define to 1 for available fpu])
+  AH_TEMPLATE([SMP_AVAILABLE], [Define to 1 for SMP systems])
 
   case "${host_cpu}" in
   arm)
@@ -24,6 +25,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       AC_DEFINE([BCM2709], [1], [Define to 1 for BCM2709 chip])
       AC_DEFINE([SOC_LOAD_ADDRESS], [0x8000])
       AC_DEFINE([FPU_AVAILABLE], [1])
+      AC_DEFINE([SMP_AVAILABLE], [1])
       ;;
     rpi_zero_w)
       CFLAGS="${CFLAGS} -march=armv6zk -mtune=arm1176jzf-s -mfpu=vfpv2 -mfloat-abi=hard"
@@ -42,6 +44,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       AC_DEFINE([BCM2710], [1], [Define to 1 for BCM2710 chip])
       AC_DEFINE([SOC_LOAD_ADDRESS], [0x8000])
       AC_DEFINE([FPU_AVAILABLE], [1])
+      AC_DEFINE([SMP_AVAILABLE], [1])
       ;;
     *)
       AC_MSG_ERROR([unsupported host vendor])
@@ -61,7 +64,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       vendor_subdir=rpi
       output_img=loader8.img
       output_sym=loader8.sym
-      AC_DEFINE([BCM2710], [1])
+      AC_DEFINE([BCM2710], [1], [Define to 1 for BCM2710 chip])
       AC_DEFINE([SOC_LOAD_ADDRESS], [0x80000])
       AC_DEFINE([FPU_AVAILABLE], [1])
       ;;
@@ -88,24 +91,4 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
   AC_SUBST(host_bfd)
   AC_SUBST(copy_flags)
   AC_SUBST(executable_format)
-])
-
-AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_FLAGS], [
-  CFLAGS="${CFLAGS} -ffreestanding -fno-exceptions -Wall -Wextra -Werror -Wpedantic -Wconversion -Wpacked -Wpacked-bitfield-compat -Wpacked-not-aligned -nodefaultlibs -std=c18"
-  LDFLAGS="${LDFLAGS} -nostdlib"
-])
-
-AC_DEFUN([BOLTHUR_SERIAL_LOADER_PROG_OBJCOPY], [
-  AC_CHECK_TOOL([BOLTHUR_SERIAL_LOADER_OBJCOPY], [objcopy])
-  AC_CACHE_CHECK([whether objcopy generates $host_bfd],
-    [ac_cv_objcopy_supports_host_bfd],
-    [if test "$BOLTHUR_SERIAL_LOADER_OBJCOPY" --info 2>&1 < /dev/null | grep "$host_bfd" > /dev/null; then
-      ac_cv_objcopy_supports_host_bfd=no
-    else
-      ac_cv_objcopy_supports_host_bfd=yes
-    fi]
-  )
-  if test ac_cv_objcopy_supports_host_bfd = no; then
-    AC_MSG_ERROR([unsupported host BFD])
-  fi
 ])
