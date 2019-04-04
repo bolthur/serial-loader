@@ -1,6 +1,6 @@
 
 AC_PREREQ(2.57)
-AC_INIT([bolthur-serial-loader], [0.1], [bug-serial-loader@bolthur.org])
+AC_INIT([bolthur-serial-loader], [0.1], [https://github.com/bolthur/serial-loader/issues], [bolthur-serial-loader], [https://github.com/bolthur/serial-loader])
 AC_COPYRIGHT([Copyright (C) 2019 bolthur project])
 
 AC_CONFIG_SRCDIR([main.c])
