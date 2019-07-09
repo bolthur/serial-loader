@@ -8,7 +8,7 @@ AC_CONFIG_MACRO_DIR([build-aux/m4])
 
 AC_CANONICAL_HOST
 AC_CONFIG_SRCDIR([src/loader/main.c])
-AM_INIT_AUTOMAKE([foreign 1.7])
+AM_INIT_AUTOMAKE()
 AC_CONFIG_HEADERS([include/config.h])
 
 #AM_SILENT_RULES([yes])
