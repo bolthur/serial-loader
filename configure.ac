@@ -3,15 +3,15 @@ AC_PREREQ(2.57)
 AC_INIT([bolthur-serial-loader], [0.1], [https://github.com/bolthur/serial-loader/issues], [bolthur-serial-loader], [https://github.com/bolthur/serial-loader])
 AC_COPYRIGHT([Copyright (C) 2019 bolthur project])
 
-AC_CONFIG_AUX_DIR([config])
-AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux/config])
+AC_CONFIG_MACRO_DIR([build-aux/m4])
 
 AC_CANONICAL_HOST
 AC_CONFIG_SRCDIR([src/loader/main.c])
 AM_INIT_AUTOMAKE([foreign 1.7])
 AC_CONFIG_HEADERS([include/config.h])
 
-AM_SILENT_RULES([yes])
+#AM_SILENT_RULES([yes])
 
 AC_LANG([C])
 
@@ -101,8 +101,8 @@ AC_CONFIG_FILES([
   src/arch/arm/v6/Makefile
   src/arch/arm/v7/Makefile
   src/arch/arm/v8/Makefile
-  src/vendor/Makefile
-  src/vendor/rpi/Makefile
+  src/platform/Makefile
+  src/platform/rpi/Makefile
 ])
 
 AC_OUTPUT

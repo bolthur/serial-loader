@@ -27,7 +27,7 @@ GROUP(
   ../../arch/arm/v7/libv7.a
   ../../arch/arm/libarm.a
   ../../loader/libloader.a
-  ../../vendor/rpi/librpi.a
+  ../../platform/rpi/librpi.a
 )
 INPUT(
   libgcc.a

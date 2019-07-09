@@ -23,7 +23,7 @@
 
 #include "loader/serial.h"
 #include "loader/printf.h"
-#include "loader/vendor.h"
+#include "loader/platform.h"
 #include "loader/entry.h"
 
 extern void boot_start( void );
@@ -90,7 +90,7 @@ void loader_main() {
 
     // boot loaded kernel
     printf( "Booting received kernel with size of %d bytes\r\n", load_size );
-    vendor_boot_kernel();
+    platform_boot_kernel();
 
     // break out of loop
     break;

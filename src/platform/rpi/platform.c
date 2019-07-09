@@ -20,14 +20,29 @@
 
 #include <stdint.h>
 
-#if !defined( VENDOR_RPI_PERIPHERAL_H )
-#define VENDOR_RPI_PERIPHERAL_H
+/**
+ * @brief platform boot parameter
+ */
+uint32_t platform_boot_parameter[ 3 ];
 
-// initial setup of peripheral base
-#if defined( BCM2709 ) || defined( BCM2710 )
-  #define PERIPHERAL_BASE 0x3F000000
-#else
-  #define PERIPHERAL_BASE 0x20000000
-#endif
+/**
+ * @brief Kernel entry function pointer
+ */
+typedef void ( *kernel_entry )( uint32_t r0, uint32_t r1, uint32_t r2 );
 
-#endif
+/**
+ * @brief Boot loaded kernel
+ */
+void platform_boot_kernel( void ) {
+  // get pointer to kernel start function
+  kernel_entry kernel = ( kernel_entry )SOC_LOAD_ADDRESS;
+
+  // call kernel startup function
+  kernel(
+    platform_boot_parameter[ 0 ],
+    platform_boot_parameter[ 1 ],
+    platform_boot_parameter[ 2 ]
+  );
+}
+
+

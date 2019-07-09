@@ -18,9 +18,9 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined( VENDOR_H )
-#define VENDOR_H
+#if !defined( PLATFORM_H )
+#define PLATFORM_H
 
-extern void vendor_boot_kernel( void );
+extern void platform_boot_kernel( void );
 
 #endif

@@ -114,7 +114,7 @@ boot_start:
     blo 2b
 
   // save boot parameter
-  ldr r4, =vendor_boot_parameter
+  ldr r4, =platform_boot_parameter
   stmia r4!, {r0 - r2}
 
   // switch to c main

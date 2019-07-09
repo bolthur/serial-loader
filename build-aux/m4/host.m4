@@ -19,7 +19,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
     rpi2_b_rev1)
       CFLAGS="${CFLAGS} -march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv3 -mfloat-abi=hard"
       subarch_subdir=v7
-      vendor_subdir=rpi
+      platform_subdir=rpi
       output_img=loader7.img
       output_sym=loader7.sym
       AC_DEFINE([BCM2709], [1], [Define to 1 for BCM2709 chip])
@@ -30,7 +30,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
     rpi_zero_w)
       CFLAGS="${CFLAGS} -march=armv6zk -mtune=arm1176jzf-s -mfpu=vfpv2 -mfloat-abi=hard"
       subarch_subdir=v6
-      vendor_subdir=rpi
+      platform_subdir=rpi
       AC_DEFINE([BCM2708], [1], [Define to 1 for BCM2708 chip])
       AC_DEFINE([SOC_LOAD_ADDRESS], [0x8000])
       AC_DEFINE([FPU_AVAILABLE], [1])
@@ -38,7 +38,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
     rpi3_b)
       CFLAGS="${CFLAGS} -march=armv8-a -mtune=cortex-a53 -mfpu=neon-vfpv4 -mfloat-abi=hard"
       subarch_subdir=v8
-      vendor_subdir=rpi
+      platform_subdir=rpi
       output_img=loader8.img
       output_sym=loader8.sym
       AC_DEFINE([BCM2710], [1], [Define to 1 for BCM2710 chip])
@@ -47,7 +47,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       AC_DEFINE([SMP_AVAILABLE], [1])
       ;;
     *)
-      AC_MSG_ERROR([unsupported host vendor])
+      AC_MSG_ERROR([unsupported host platform])
       ;;
     esac
     ;;
@@ -61,7 +61,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
     rpi3_b)
       CFLAGS="${CFLAGS} -march=armv8-a -mtune=cortex-a53"
       subarch_subdir=v8
-      vendor_subdir=rpi
+      platform_subdir=rpi
       output_img=loader8.img
       output_sym=loader8.sym
       AC_DEFINE([BCM2710], [1], [Define to 1 for BCM2710 chip])
@@ -69,7 +69,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       AC_DEFINE([FPU_AVAILABLE], [1])
       ;;
     *)
-      AC_MSG_ERROR([unsupported host vendor])
+      AC_MSG_ERROR([unsupported host platform])
       ;;
     esac
     ;;
@@ -82,10 +82,10 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
 
   AC_DEFINE_UNQUOTED([ARCH], [${arch_subdir}], [bolthur/serial-loader target architecture])
   AC_DEFINE_UNQUOTED([SUBARCH], [${subarch_subdir}], [bolthur/serial-loader target subarchitecture])
-  AC_DEFINE_UNQUOTED([VENDOR], [${vendor_subdir}], [bolthur/serial-loader target vendor])
+  AC_DEFINE_UNQUOTED([PLATFORM], [${platform_subdir}], [bolthur/serial-loader target platform])
   AC_SUBST(arch_subdir)
   AC_SUBST(subarch_subdir)
-  AC_SUBST(vendor_subdir)
+  AC_SUBST(platform_subdir)
   AC_SUBST(output_img)
   AC_SUBST(output_sym)
   AC_SUBST(host_bfd)

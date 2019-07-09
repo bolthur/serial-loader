@@ -24,8 +24,8 @@
 
 #include "loader/memcpy.h"
 
-#include "vendor/rpi/mailbox/property.h"
-#include "vendor/rpi/mailbox/mailbox.h"
+#include "platform/rpi/mailbox/property.h"
+#include "platform/rpi/mailbox/mailbox.h"
 
 /**
  * @brief property tag buffer, which needs to be aligned to 16 byte boundary

@@ -20,8 +20,8 @@
 
 #include <stdint.h>
 
-#if !defined( VENDOR_RPI_MAILBOX_PROPERTY_H )
-#define VENDOR_RPI_MAILBOX_PROPERTY_H
+#if !defined( PLATFORM_RPI_MAILBOX_PROPERTY_H )
+#define PLATFORM_RPI_MAILBOX_PROPERTY_H
 
 typedef enum {
   // videocore

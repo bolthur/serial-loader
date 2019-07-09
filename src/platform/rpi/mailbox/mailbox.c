@@ -18,8 +18,8 @@
  * along with bolthur/serial-loader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "vendor/rpi/peripheral.h"
-#include "vendor/rpi/mailbox/mailbox.h"
+#include "platform/rpi/peripheral.h"
+#include "platform/rpi/mailbox/mailbox.h"
 
 /**
  * @brief Read value from mailbox

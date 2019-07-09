@@ -25,9 +25,9 @@
 #include "arch/arm/delay.h"
 #include "arch/arm/mmio.h"
 
-#include "vendor/rpi/mailbox/property.h"
-#include "vendor/rpi/peripheral.h"
-#include "vendor/rpi/gpio.h"
+#include "platform/rpi/mailbox/property.h"
+#include "platform/rpi/peripheral.h"
+#include "platform/rpi/gpio.h"
 
 void serial_init( void ) {
   // Disable UART0.

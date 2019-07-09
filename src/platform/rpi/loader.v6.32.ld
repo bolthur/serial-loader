@@ -24,10 +24,10 @@ OUTPUT_ARCH( arm )
 ENTRY( boot_start )
 
 GROUP(
-  ../../arch/arm/v8/libv8.a
+  ../../arch/arm/v6/libv6.a
   ../../arch/arm/libarm.a
   ../../loader/libloader.a
-  ../../vendor/rpi/librpi.a
+  ../../platform/rpi/librpi.a
 )
 INPUT(
   libgcc.a

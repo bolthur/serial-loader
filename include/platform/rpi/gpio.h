@@ -20,8 +20,8 @@
 
 #include <stdint.h>
 
-#if !defined( VENDOR_RPI_GPIO_H )
-#define VENDOR_RPI_GPIO_H
+#if !defined( PLATFORM_RPI_GPIO_H )
+#define PLATFORM_RPI_GPIO_H
 
 enum {
   GPIO_BASE = 0x00200000,
