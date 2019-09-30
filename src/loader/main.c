@@ -33,24 +33,66 @@ extern void boot_start( void );
  */
 void loader_main() {
   // local variables
-  uint32_t size, loader_end_address, load_size;
+  uint32_t size, loader_end_address, type;
+  bool processing = false;
 
   // setup serial connection
   serial_init();
 
   // loop until kernel dropped in
   while ( true ) {
-    // some initial output
-    printf(
-      "%s\r\nfunction located at: 0x%08x\r\nkernel loaded to: 0x%08x\r\nboot_start: 0x%08x\r\n",
-      PACKAGE_STRING, loader_main, SOC_LOAD_ADDRESS, boot_start
-    );
+    // handle only if not processing
+    if ( ! processing ) {
+      // some initial output
+      printf(
+        "%s\r\nfunction located at: 0x%08x\r\nkernel loaded to: 0x%08x\r\ninitrd loaded to: 0x%08x\r\nboot_start: 0x%08x\r\n",
+        PACKAGE_STRING, loader_main, SOC_LOAD_ADDRESS, INITRD_LOAD_ADDRESS, boot_start
+      );
 
-    // flush serial device
-    serial_flush();
+      // flush serial device
+      serial_flush();
 
-    // send end of text to signal wait for kernel
-    serial_puts( "\x03\x03\x03" );
+      // send end of text to signal wait for kernel
+      serial_puts( "\x03\x03\x03" );
+
+      // set processing flag
+      processing = true;
+    }
+
+    // get type
+    uint16_t tmp_type = ( uint32_t )serial_getc();
+    tmp_type |= ( uint16_t )( serial_getc() << 8 );
+
+    // check for go command
+    uint8_t *check_go = ( uint8_t* )&tmp_type;
+    if(
+      'G' == check_go[ 0 ]
+      && 'O' == check_go[ 1 ]
+    ) {
+      // boot loaded kernel
+      printf( "Trying to boot received kernel\r\n" );
+      platform_boot_kernel();
+
+      // break out of loop
+      break;
+    }
+
+    type = tmp_type;
+    type |= ( uint32_t )( serial_getc() << 16 );
+    type |= ( uint32_t )( serial_getc() << 24 );
+
+    // check type
+    if (
+      FILE_TYPE_INITRD != type
+      && FILE_TYPE_KERNEL != type
+    ) {
+      serial_puts( "ER" );
+      processing = false;
+      continue;
+    }
+
+    // send okay
+    serial_puts( "OK" );
 
     // get kernel size in bytes
     size = ( uint32_t )serial_getc();
@@ -58,15 +100,16 @@ void loader_main() {
     size |= ( uint32_t )( serial_getc() << 16 );
     size |= ( uint32_t )( serial_getc() << 24 );
 
-    // store load size
-    load_size = size;
-
     // calculate end address
     loader_end_address = SOC_LOAD_ADDRESS + size;
+    if ( type == FILE_TYPE_INITRD ) {
+      loader_end_address = INITRD_LOAD_ADDRESS + size;
+    }
 
     // check for possible overflow and skip rest
     if ( loader_end_address > ( uint32_t )&__loader_start ) {
       serial_puts( "ER" );
+      processing = false;
       continue;
     }
 
@@ -74,7 +117,10 @@ void loader_main() {
     serial_puts( "OK" );
 
     // pointer to kernel at system load address
-    uint8_t *kernel = ( uint8_t* )SOC_LOAD_ADDRESS;
+    uint8_t *file = ( uint8_t* )SOC_LOAD_ADDRESS;
+    if ( type == FILE_TYPE_INITRD ) {
+      file = ( uint8_t* )INITRD_LOAD_ADDRESS;
+    }
     uint32_t count = 0;
 
     // loop until size is 0
@@ -85,15 +131,8 @@ void loader_main() {
       }
 
       // store current byte
-      *kernel++ = serial_getc();
+      *file++ = serial_getc();
     }
-
-    // boot loaded kernel
-    printf( "Booting received kernel with size of %d bytes\r\n", load_size );
-    platform_boot_kernel();
-
-    // break out of loop
-    break;
   }
 
   // endless loop should not be reached

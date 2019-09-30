@@ -3,6 +3,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
   AH_TEMPLATE([ELF32], [Define to 1 for 32 bit ELF targets])
   AH_TEMPLATE([ELF64], [Define to 1 for 64 bit ELF targets])
   AH_TEMPLATE([SOC_LOAD_ADDRESS], [Define containing soc load address])
+  AH_TEMPLATE([INITRD_LOAD_ADDRESS], [Define containing load address of initrd])
   AH_TEMPLATE([FPU_AVAILABLE], [Define to 1 for available fpu])
   AH_TEMPLATE([SMP_AVAILABLE], [Define to 1 for SMP systems])
 
@@ -24,6 +25,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       output_sym=loader7.sym
       AC_DEFINE([BCM2709], [1], [Define to 1 for BCM2709 chip])
       AC_DEFINE([SOC_LOAD_ADDRESS], [0x8000])
+      AC_DEFINE([INITRD_LOAD_ADDRESS], [0x800000])
       AC_DEFINE([FPU_AVAILABLE], [1])
       AC_DEFINE([SMP_AVAILABLE], [1])
       ;;
@@ -33,6 +35,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       platform_subdir=rpi
       AC_DEFINE([BCM2708], [1], [Define to 1 for BCM2708 chip])
       AC_DEFINE([SOC_LOAD_ADDRESS], [0x8000])
+      AC_DEFINE([INITRD_LOAD_ADDRESS], [0x800000])
       AC_DEFINE([FPU_AVAILABLE], [1])
       ;;
     rpi3_b)
@@ -43,6 +46,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       output_sym=loader8.sym
       AC_DEFINE([BCM2710], [1], [Define to 1 for BCM2710 chip])
       AC_DEFINE([SOC_LOAD_ADDRESS], [0x8000])
+      AC_DEFINE([INITRD_LOAD_ADDRESS], [0x800000])
       AC_DEFINE([FPU_AVAILABLE], [1])
       AC_DEFINE([SMP_AVAILABLE], [1])
       ;;
@@ -66,6 +70,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       output_sym=loader8.sym
       AC_DEFINE([BCM2710], [1], [Define to 1 for BCM2710 chip])
       AC_DEFINE([SOC_LOAD_ADDRESS], [0x80000])
+      AC_DEFINE([INITRD_LOAD_ADDRESS], [0x800000])
       AC_DEFINE([FPU_AVAILABLE], [1])
       ;;
     *)

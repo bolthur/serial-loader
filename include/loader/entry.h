@@ -23,6 +23,9 @@
 
 #include <stdint.h>
 
+#define FILE_TYPE_KERNEL 1
+#define FILE_TYPE_INITRD 2
+
 extern uint32_t __loader_start;
 extern uint32_t __loader_end;
 
