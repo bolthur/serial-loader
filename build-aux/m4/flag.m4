@@ -6,6 +6,10 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_FLAG], [
   # generic
   CFLAGS="${CFLAGS} -ffreestanding -fno-exceptions -nodefaultlibs -std=c18"
 
+  # debug parameter
+  AS_IF([test "x$with_debug" == "xyes"], [
+    CFLAGS="${CFLAGS} -g"
+  ])
   # optimization level
   case "${with_opt}" in
     no | 0)

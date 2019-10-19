@@ -26,6 +26,15 @@ AC_ARG_ENABLE([device],
 )
 
 AC_ARG_WITH(
+  [debug],
+  AC_HELP_STRING(
+    [--with-debug],
+    [compile with debug symbols]
+  ),
+  [with_debug=yes]
+)
+
+AC_ARG_WITH(
   [opt],
   AC_HELP_STRING(
     [--with-opt],
