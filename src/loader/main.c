@@ -23,6 +23,7 @@
 
 #include "loader/serial.h"
 #include "loader/printf.h"
+#include "loader/strncmp.h"
 #include "loader/platform.h"
 #include "loader/entry.h"
 
@@ -43,11 +44,11 @@ void loader_main() {
   while ( true ) {
     // handle only if not processing
     if ( ! processing ) {
-      // some initial output
-      printf(
-        "%s\r\nfunction located at: 0x%08x\r\nkernel loaded to: 0x%08x\r\ninitrd loaded to: 0x%08x\r\nboot_start: 0x%08x\r\n",
-        PACKAGE_STRING, loader_main, SOC_LOAD_ADDRESS, INITRD_LOAD_ADDRESS, boot_start
-      );
+      // some start output
+      printf( "%s\r\n", PACKAGE_STRING );
+      printf( "loader main located at: 0x%08x\r\n", loader_main );
+      printf( "initrd will be loaded to: 0x%08x\r\n", INITRD_LOAD_ADDRESS );
+      printf( "kernel will be loaded to: 0x%08x\r\n", SOC_LOAD_ADDRESS );
 
       // flush serial device
       serial_flush();
@@ -64,11 +65,8 @@ void loader_main() {
     tmp_type |= ( uint16_t )( serial_getc() << 8 );
 
     // check for go command
-    uint8_t *check_go = ( uint8_t* )&tmp_type;
-    if(
-      'G' == check_go[ 0 ]
-      && 'O' == check_go[ 1 ]
-    ) {
+    const char* check_go = ( const char* )&tmp_type;
+    if ( 0 == strncmp( check_go, "GO", 2 ) ) {
       // boot loaded kernel
       printf( "Trying to boot received kernel\r\n" );
       platform_boot_kernel();

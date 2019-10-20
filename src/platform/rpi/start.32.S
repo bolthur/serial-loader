@@ -81,7 +81,6 @@ boot_start:
     mcrr p15, 1, r3, r1, c15
   #endif
 
-
   #if defined( BCM2709 ) || defined( BCM2710 )
     // read system control register
     mrc p15, 0, r3, c1, c0, 0

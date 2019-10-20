@@ -45,7 +45,7 @@ AC_DEFUN([BOLTHUR_SERIAL_LOADER_SET_HOST], [
       output_img=loader8.img
       output_sym=loader8.sym
       AC_DEFINE([BCM2710], [1], [Define to 1 for BCM2710 chip])
-      AC_DEFINE([SOC_LOAD_ADDRESS], [0x8000])
+      AC_DEFINE([SOC_LOAD_ADDRESS], [0x80000])
       AC_DEFINE([INITRD_LOAD_ADDRESS], [0x800000])
       AC_DEFINE([FPU_AVAILABLE], [1])
       AC_DEFINE([SMP_AVAILABLE], [1])

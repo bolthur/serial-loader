@@ -33,14 +33,23 @@ INPUT(
   libgcc.a
 )
 
+LOADER_LMA = 0x80000;
+LOADER_OFFSET = 0x3F80000;
+
 SECTIONS {
-  /* load to 64mb border */
-  . = 0x4000000;
-  __loader_start = .;
+  . = LOADER_LMA;
+
+  /* boot loader sections */
+  .text.boot : ALIGN( 4K ) {
+    *( .text.boot )
+  }
+
+  /* 64mb border */
+  . += LOADER_OFFSET;
+  __loader_start = . + LOADER_OFFSET;
 
   .text ALIGN( 4K ) : AT( ADDR( .text ) ) {
     __text_start = .;
-    *( .text.boot )
     *( .text )
     __text_end = .;
   }
