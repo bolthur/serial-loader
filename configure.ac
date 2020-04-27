@@ -3,6 +3,9 @@ AC_PREREQ(2.57)
 AC_INIT([bolthur-serial-loader], [0.1], [https://github.com/bolthur/serial-loader/issues], [bolthur-serial-loader], [https://github.com/bolthur/serial-loader])
 AC_COPYRIGHT([Copyright (C) 2019 bolthur project])
 
+# Add hosted toolchain to path
+AC_SUBST(PATH, "/opt/bolthur/cross/bin:${PATH}")
+
 AC_CONFIG_AUX_DIR([build-aux/config])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
@@ -12,9 +15,6 @@ AM_INIT_AUTOMAKE()
 AC_CONFIG_HEADERS([include/config.h])
 
 AC_LANG([C])
-
-# FIXME: Shouldn't be necessary, when creating symlinks of toolchain binaries to /usr/local/bin
-AC_SUBST(PATH, "${HOME}/.bolthur/cross/bin:${PATH}")
 
 AC_ARG_ENABLE([device],
   AC_HELP_STRING(
