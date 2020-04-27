@@ -13,5 +13,6 @@ libloader_a_SOURCES = \
   memcpy.c \
   printf.c \
   strlen.c \
+  strncmp.c \
   strrev.c \
   utoa.c

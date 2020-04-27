@@ -1,6 +1,6 @@
 
 /**
- * Copyright (C) 2019 bolthur project.
+ * Copyright (C) 2019 - 2020 bolthur project.
  *
  * This file is part of bolthur/serial-loader.
  *
@@ -22,6 +22,9 @@
 #define ENTRY_H
 
 #include <stdint.h>
+
+#define FILE_TYPE_KERNEL 1
+#define FILE_TYPE_INITRD 2
 
 extern uint32_t __loader_start;
 extern uint32_t __loader_end;
