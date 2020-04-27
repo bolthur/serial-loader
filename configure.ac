@@ -1,7 +1,7 @@
 
 AC_PREREQ(2.57)
 AC_INIT([bolthur-serial-loader], [0.1], [https://github.com/bolthur/serial-loader/issues], [bolthur-serial-loader], [https://github.com/bolthur/serial-loader])
-AC_COPYRIGHT([Copyright (C) 2019 bolthur project])
+AC_COPYRIGHT([Copyright (C) 2019 - 2020 bolthur project])
 
 # Add hosted toolchain to path
 AC_SUBST(PATH, "/opt/bolthur/cross/bin:${PATH}")
